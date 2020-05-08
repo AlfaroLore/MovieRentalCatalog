@@ -6,6 +6,7 @@ import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.OneToOne;
 import javax.persistence.Id;
 
 @Data
@@ -16,10 +17,14 @@ public class Price {
     private Double price;
     private Date date;
 
+    @OneToOne(mappedBy = "price")
+    private MovieCatalog movieCatalog;
+
     Price() {
     }
 
-    Price(Double price, Date date) {
+    public Price(Double price, Date date) {
         this.price = price;
+        this.date = date;
     }
 }

@@ -9,18 +9,22 @@ import javax.persistence.OneToOne;
 
 @Data
 @Entity
-public class User {
-
+public class Member {
     private @Id @GeneratedValue Long id;
+    private String username;
     private String name;
+    private String telephone;
 
-    @OneToOne(mappedBy = "user")
-    private Movie movie;
+    @OneToOne(mappedBy = "member")
+    private MovieRental movieRental;
 
-    User() {
+    public Member() {
     }
 
-    User(String name) {
+    public Member(String username, String name, String telephone) {
+        this.username = username;
         this.name = name;
+        this.telephone = telephone;
     }
+
 }
