@@ -3,22 +3,24 @@ package com.example.demo.Controllers;
 import java.util.List;
 
 import com.example.demo.Models.Movie;
+import com.example.demo.Models.MovieRental;
+import com.example.demo.Repositories.MovieRentalRepository;
 import com.example.demo.Repositories.MovieRepository;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class MovieController {
-    private final MovieRepository repository;
+    private final MovieRentalRepository repository;
 
-    MovieController(MovieRepository repository) {
+    MovieController(MovieRentalRepository repository) {
         this.repository = repository;
     }
 
     // Aggregate root
 
     @GetMapping("/api/movies")
-    List<Movie> all() {
+    List<MovieRental> all() {
         return repository.findAll();
     }
 }

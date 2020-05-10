@@ -4,13 +4,14 @@ import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
 @Data
 @Entity
 public class Member {
-    private @Id @GeneratedValue Long id;
+    private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
     private String username;
     private String name;
     private String telephone;
@@ -27,4 +28,7 @@ public class Member {
         this.telephone = telephone;
     }
 
+    public void setMovieRental(MovieRental movieRental) {
+        this.movieRental = movieRental;
+    }
 }

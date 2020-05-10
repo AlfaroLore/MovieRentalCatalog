@@ -27,4 +27,8 @@ public class Price {
         this.price = price;
         this.date = date;
     }
+
+    public void setMovieCatalog(MovieCatalog movieCatalog) {
+        this.movieCatalog = movieCatalog;
+    }
 }

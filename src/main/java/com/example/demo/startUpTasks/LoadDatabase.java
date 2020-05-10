@@ -30,45 +30,40 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 public class LoadDatabase {
     @Bean
-    CommandLineRunner initDatabase(MovieRepository movierepository, MemberRepository memberRepository,
-            PriceRepository priceRepository, ActorRepository actorRepository,
-            MovieCatalogRepository movieCatalogRepository, MovieRentalRepository movieRentalRepository) {
+    CommandLineRunner initDatabase(final MovieRepository movierepository, final MemberRepository memberRepository,
+            final PriceRepository priceRepository, final ActorRepository actorRepository,
+            final MovieCatalogRepository movieCatalogRepository, final MovieRentalRepository movieRentalRepository) {
         return args -> {
 
-            Actor actor = new Actor("Elijah Wood");
-            Set<Actor> actors = new HashSet<Actor>() {
+            final Actor actor = new Actor("Elijah Wood");
+            final Set<Actor> actors = new HashSet<Actor>() {
                 {
                     add(actor);
                 }
             };
 
-            log.info("Preloading price" + actorRepository.save(actor));
-
-            Movie movie1 = new Movie("Lord of the Rings, The Fellowship of the Ring", "2001",
+            final Movie movie1 = new Movie("Lord of the Rings, The Fellowship of the Ring", "2001",
                     "Frodo's adventure begins", MovieRate.PG13, actors);
 
-            Movie movie2 = new Movie("Spirited Away", "2001", "Chihiro's Journey", MovieRate.PG13, actors);
+            final Movie movie2 = new Movie("Spirited Away", "2001", "Chihiro's Journey", MovieRate.PG13, actors);
 
-            Member member1 = new Member("pepito@perez.com", "Pepito Perez", "591 79388257");
+            final Member member1 = new Member("pepito@perez.com", "Pepito Perez", "591 79388257");
 
-            Price price1 = new Price(15.5, Calendar.getInstance().getTime());
+            final Price price1 = new Price(15.5, Calendar.getInstance().getTime());
 
-            log.info("Preloading movie" + movierepository.save(movie1));
-            log.info("Preloading movie" + movierepository.save(movie2));
-            log.info("Preloading member" + memberRepository.save(member1));
-            log.info("Preloading price" + priceRepository.save(price1));
+            log.info("Preloading " + actorRepository.save(actor));
+            log.info("Preloading " + movierepository.save(movie1));
+            log.info("Preloading " + movierepository.save(movie2));
+            log.info("Preloading " + memberRepository.save(member1));
+            log.info("Preloading " + priceRepository.save(price1));
 
-            /*
-             * MovieCatalog movieCatalog = new MovieCatalog(movie1, price1, 2);
-             * log.info("Preloading movie catalog" +
-             * movieCatalogRepository.save(movieCatalog));
-             * 
-             * 
-             * MovieRental movieRental = new MovieRental(member1, movieCatalog,
-             * Calendar.getInstance().getTime(), "RENT"); log.info("Preloading movie rental"
-             * + movieRentalRepository.save(movieRental));
-             */
+            final MovieCatalog movieCatalog = new MovieCatalog(movie2, price1, 2);
 
+            final MovieRental movieRental = new MovieRental(member1, movieCatalog, Calendar.getInstance().getTime(),
+                    "RENT");
+
+            log.info("Preloading " + movieCatalogRepository.save(movieCatalog));
+            log.info("Preloading " + movieRentalRepository.save(movieRental));
         };
     }
 }

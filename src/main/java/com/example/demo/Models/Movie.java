@@ -2,8 +2,10 @@ package com.example.demo.Models;
 
 import lombok.Data;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.OneToMany;
@@ -13,14 +15,14 @@ import java.util.Set;
 @Data
 @Entity
 public class Movie {
-    private @Id @GeneratedValue Long id;
+    private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
     private String title;
     private String year;
     private String description;
     private MovieRate rate;// enum
     private Boolean deleted;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "registeringUser")
     private User user;
     // private User updatingUser;
@@ -41,5 +43,17 @@ public class Movie {
         this.rate = rate;
         this.deleted = false;
         this.actorsList = actorsList;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setMovieCatalog(MovieCatalog movieCatalog) {
+        this.movieCatalog = movieCatalog;
+    }
+
+    public void setRegisteringUser(User user) {
+        this.user = user;
     }
 }
