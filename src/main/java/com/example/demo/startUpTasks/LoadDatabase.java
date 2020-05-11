@@ -43,9 +43,12 @@ public class LoadDatabase {
             };
 
             final Movie movie1 = new Movie("Lord of the Rings, The Fellowship of the Ring", "2001",
-                    "Frodo's adventure begins", MovieRate.PG13, actors);
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam sit amet luctus justo. Duis quis sodales lectus. Nam eget orci elementum orci aliquam.",
+                    MovieRate.PG13, actors);
 
-            final Movie movie2 = new Movie("Spirited Away", "2001", "Chihiro's Journey", MovieRate.PG13, actors);
+            final Movie movie2 = new Movie("Spirited Away", "2001",
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam sit amet luctus justo. Duis quis sodales lectus. Nam eget orci elementum orci aliquam.",
+                    MovieRate.PG13, actors);
 
             final Member member1 = new Member("pepito@perez.com", "Pepito Perez", "591 79388257");
 
