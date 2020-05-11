@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Data
 @Entity
 public class Member {
@@ -16,6 +18,7 @@ public class Member {
     private String name;
     private String telephone;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "member")
     private MovieRental movieRental;
 

@@ -8,6 +8,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.OneToMany;
 import javax.persistence.JoinColumn;
 import java.util.Set;
@@ -22,6 +25,7 @@ public class Movie {
     private MovieRate rate;// enum
     private Boolean deleted;
 
+    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "registeringUser")
     private User user;
@@ -30,6 +34,7 @@ public class Movie {
     @OneToMany(mappedBy = "movie")
     private Set<Actor> actorsList;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "movie")
     private MovieCatalog movieCatalog;
 

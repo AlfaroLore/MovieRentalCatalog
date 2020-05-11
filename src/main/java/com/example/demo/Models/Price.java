@@ -7,6 +7,9 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Id;
 
 @Data
@@ -17,6 +20,7 @@ public class Price {
     private Double price;
     private Date date;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "price")
     private MovieCatalog movieCatalog;
 

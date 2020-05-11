@@ -2,10 +2,8 @@ package com.example.demo.Controllers;
 
 import java.util.List;
 
-import com.example.demo.Models.Movie;
 import com.example.demo.Models.MovieRental;
 import com.example.demo.Repositories.MovieRentalRepository;
-import com.example.demo.Repositories.MovieRepository;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
