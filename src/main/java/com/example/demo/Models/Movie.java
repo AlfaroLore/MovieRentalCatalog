@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -19,10 +21,19 @@ import java.util.Set;
 @Entity
 public class Movie {
     private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
+
+    @NotBlank(message = "Title is mandatory")
+    @Size(max = 50, message = "Title max length is 50 characters")
     private String title;
+
+    @NotBlank(message = "Year is mandatory")
     private String year;
+
+    @NotBlank(message = "Description is mandatory")
+    @Size(min = 100, message = "Description min length is 100 characters")
     private String description;
-    private MovieRate rate;// enum
+
+    private MovieRate rate = MovieRate.G;// enum
     private Boolean deleted;
 
     @JsonIgnore
