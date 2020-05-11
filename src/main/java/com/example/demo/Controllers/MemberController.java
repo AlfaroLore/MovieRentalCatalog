@@ -2,6 +2,8 @@ package com.example.demo.Controllers;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import com.example.demo.Models.Member;
 import com.example.demo.Repositories.MemberRepository;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +27,7 @@ public class MemberController {
     }
 
     @PostMapping("/api/members")
-    Member newMember(@RequestBody Member member) {
+    Member newMember(@Valid @RequestBody Member member) {
         return memberRepository.save(member);
     }
 
