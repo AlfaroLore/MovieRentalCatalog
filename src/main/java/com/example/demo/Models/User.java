@@ -2,25 +2,104 @@ package com.example.demo.Models;
 
 import lombok.Data;
 
+import java.io.Serializable;
+import java.util.Collection;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
-@Data
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+
 @Entity
-public class User {
+@Table(name = "USER_", uniqueConstraints = { @UniqueConstraint(columnNames = { "USER_NAME" }) })
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id")
+public class User implements UserDetails, Serializable {
 
-    private @Id @GeneratedValue Long id;
-    private String name;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
+    private Long id;
+
+    @Column(name = "USER_NAME")
+    private String username;
+
+    @Column(name = "PASSWORD")
+    private String password;
+
+    @Column(name = "ACCOUNT_EXPIRED")
+    private boolean accountExpired;
+
+    @Column(name = "ACCOUNT_LOCKED")
+    private boolean accountLocked;
+
+    @Column(name = "CREDENTIALS_EXPIRED")
+    private boolean credentialsExpired;
+
+    @Column(name = "ENABLED")
+    private boolean enabled;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "USERS_AUTHORITIES", joinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "AUTHORITY_ID", referencedColumnName = "ID"))
+    @OrderBy
+    @JsonIgnore
+    private Collection<Authority> authorities;
 
     @OneToOne(mappedBy = "user")
     private Movie movie;
 
-    User() {
+    @Override
+    public boolean isAccountNonExpired() {
+        return accountExpired;
     }
 
-    User(String name) {
-        this.name = name;
+    @Override
+    public boolean isAccountNonLocked() {
+        return accountLocked;
     }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return credentialsExpired;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return authorities;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
+
 }
