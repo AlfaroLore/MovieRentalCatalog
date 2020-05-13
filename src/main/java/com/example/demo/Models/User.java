@@ -102,4 +102,10 @@ public class User implements UserDetails, Serializable {
         return enabled;
     }
 
+    User(){}
+
+    public User(String username, String password){
+        this.username = username;
+        this.password = password;
+    }
 }

@@ -35,6 +35,7 @@ public class LoadDatabase {
             final MovieCatalogRepository movieCatalogRepository, final MovieRentalRepository movieRentalRepository) {
         return args -> {
 
+            // TODO create users and authorithy
             final Actor actor = new Actor("Elijah Wood");
             final Set<Actor> actors = new HashSet<Actor>() {
                 {
@@ -67,6 +68,7 @@ public class LoadDatabase {
 
             log.info("Preloading " + movieCatalogRepository.save(movieCatalog));
             log.info("Preloading " + movieRentalRepository.save(movieRental));
+
         };
     }
 }
