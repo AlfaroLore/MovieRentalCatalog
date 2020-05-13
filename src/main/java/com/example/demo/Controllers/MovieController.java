@@ -8,15 +8,17 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import com.example.demo.Exceptions.MovieNotFoundException;
 import com.example.demo.Models.Movie;
-import com.example.demo.Repositories.MovieRepository;
+import com.example.demo.Services.MovieService;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -25,18 +27,16 @@ import org.springframework.hateoas.IanaLinkRelations;
 
 @RestController
 public class MovieController {
-    private final MovieRepository movieRepository;
 
-    MovieController(MovieRepository movieRepository) {
-        this.movieRepository = movieRepository;
-    }
+    @Autowired
+    private MovieService movieService;
 
     // Aggregate root
 
     @GetMapping("/api/movies/{id}")
     EntityModel<Movie> one(@PathVariable Long id) {
 
-        Movie movie = movieRepository.findById(id).orElseThrow(() -> new MovieNotFoundException(id));
+        Movie movie = movieService.findById(id);
 
         return new EntityModel<>(movie, linkTo(methodOn(MovieController.class).one(id)).withSelfRel(),
                 linkTo(methodOn(MovieController.class).all()).withRel("movies"));
@@ -44,7 +44,7 @@ public class MovieController {
 
     @GetMapping("/api/movies")
     ResponseEntity<CollectionModel<EntityModel<Movie>>> all() {
-        List<EntityModel<Movie>> movies = movieRepository.findAll().stream()
+        List<EntityModel<Movie>> movies = movieService.findAll().stream()
                 .map(movie -> new EntityModel<>(movie,
                         linkTo(methodOn(MovieController.class).one(movie.getId())).withSelfRel(),
                         linkTo(methodOn(MovieController.class).all()).withRel("movies")))
@@ -57,7 +57,7 @@ public class MovieController {
     @PostMapping("/api/movie")
     ResponseEntity<?> newMovie(@Valid @RequestBody Movie movie) {
         try {
-            Movie savedMovie = movieRepository.save(movie);
+            Movie savedMovie = movieService.save(movie);
             EntityModel<Movie> movieResource = new EntityModel<>(savedMovie,
                     linkTo(methodOn(MovieController.class).one(savedMovie.getId())).withSelfRel());
 
